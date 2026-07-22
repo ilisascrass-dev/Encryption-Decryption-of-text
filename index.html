@@ -1,512 +1,578 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Cat encryption</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:'Poppins',sans-serif;
-    min-height:100vh;
-    overflow-x:hidden;
-    background:#050816;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    position:relative;
-}
-
-/* Background */
-body::before{
-    content:"";
-    position:fixed;
-    width:500px;
-    height:500px;
-    background:#8b5cf6;
-    filter:blur(180px);
-    opacity:.25;
-    top:-150px;
-    left:-150px;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:450px;
-    height:450px;
-    background:#06b6d4;
-    filter:blur(180px);
-    opacity:.2;
-    bottom:-150px;
-    right:-150px;
-}
-
-/* FIXED LINES */
-.lines{
-    position:fixed;
-    inset:0;
-    background:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size:40px 40px;
-    z-index:0;
-    pointer-events:none;
-}
-
-/* Card */
-.container{
-    width:100%;
-    max-width:480px;
-    position:relative;
-    z-index:2;
-
-    background:rgba(12,18,35,0.65);
-    backdrop-filter:blur(25px);
-
-    border-radius:35px;
-
-    padding:28px;
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 0 40px rgba(0,0,0,.5),
-    0 0 25px rgba(139,92,246,.18);
-
-    overflow:hidden;
-}
-
-/* Neon Border */
-.container::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:35px;
-    padding:1.5px;
-
-    background:
-    linear-gradient(
-    135deg,
-    rgba(168,85,247,.9),
-    rgba(34,211,238,.9)
-    );
-
-    -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-
-    -webkit-mask-composite:xor;
-            mask-composite:exclude;
-
-    pointer-events:none;
-}
-
-/* Title */
-.title{
-    text-align:center;
-    margin-bottom:25px;
-}
-
-.title h1{
-    font-size:42px;
-    font-weight:700;
-
-    background:linear-gradient(
-    90deg,
-    #8b5cf6,
-    #22d3ee
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.title p{
-    color:#d1d5db;
-    margin-top:8px;
-    font-size:15px;
-    line-height:1.5;
-}
-
-/* Textarea */
-textarea{
-    width:100%;
-    min-height:170px;
-
-    resize:none;
-    outline:none;
-
-    border-radius:24px;
-
-    padding:20px;
-
-    margin-top:18px;
-
-    background:rgba(255,255,255,0.04);
-
-    border:1px solid rgba(255,255,255,0.07);
-
-    color:white;
-
-    font-size:16px;
-
-    transition:.25s;
-}
-
-textarea:focus{
-    border:1px solid #8b5cf6;
-
-    box-shadow:
-    0 0 20px rgba(139,92,246,.25);
-}
-
-textarea::placeholder{
-    color:#9ca3af;
-}
-
-/* Select */
-select{
-    width:100%;
-
-    margin-top:18px;
-
-    padding:18px;
-
-    border:none;
-    outline:none;
-
-    border-radius:22px;
-
-    background:rgba(255,255,255,0.05);
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    color:white;
-
-    font-size:16px;
-}
-
-option{
-    background:#111827;
-}
-
-/* Buttons */
-.buttons{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    margin-top:22px;
-}
-
-button{
-    border:none;
-    cursor:pointer;
-
-    padding:18px;
-
-    border-radius:22px;
-
-    font-size:18px;
-    font-weight:600;
-
-    color:white;
-
-    transition:.25s;
-}
-
-/* Encode */
-.encode{
-    background:
-    linear-gradient(
-    90deg,
-    #7c3aed,
-    #22d3ee
-    );
-
-    box-shadow:
-    0 0 25px rgba(124,58,237,.4);
-}
-
-/* Decode */
-.decode{
-    background:
-    linear-gradient(
-    90deg,
-    #0f172a,
-    #1e293b
-    );
-
-    border:1px solid rgba(255,255,255,0.06);
-}
-
-button:hover{
-    transform:translateY(-3px) scale(1.01);
-}
-
-/* Footer */
-.footer{
-    margin-top:25px;
-
-    text-align:center;
-
-    color:#9ca3af;
-
-    font-size:14px;
-}
-
-/* Mobile */
-@media(max-width:500px){
-
-    .container{
-        padding:22px;
-        border-radius:28px;
-    }
-
-    .title h1{
-        font-size:34px;
-    }
-
-    textarea{
-        min-height:150px;
-    }
-
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Encoder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #050816;
+            color: #f0f0f0;
+            transition: 0.5s;
+        }
+
+        body.light {
+            background: #f0f4ff;
+            color: #111827;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 540px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(25px);
+            border-radius: 32px;
+            padding: 28px 26px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(139, 92, 246, 0.15);
+            transition: 0.5s;
+        }
+
+        body.light .container {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .title h1 {
+            font-size: 38px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #8b5cf6, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title p {
+            margin-top: 4px;
+            color: #9ca3af;
+        }
+
+        body.light .title p {
+            color: #4b5563;
+        }
+
+        .top-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .lang-select, .theme-toggle {
+            padding: 8px 14px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            color: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        body.light .lang-select, body.light .theme-toggle {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        .lang-select:hover, .theme-toggle:hover {
+            border-color: #8b5cf6;
+        }
+
+        .theme-toggle {
+            font-size: 20px;
+            padding: 6px 14px;
+        }
+
+        textarea, select, input {
+            width: 100%;
+            margin-top: 14px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            outline: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        body.light textarea, body.light select, body.light input {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.10);
+            color: #111827;
+        }
+
+        body.light option {
+            background: #ffffff;
+            color: #111827;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        textarea:focus, select:focus, input:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 24px rgba(139, 92, 246, 0.25);
+        }
+
+        .output-wrapper {
+            position: relative;
+            margin-top: 14px;
+        }
+
+        .output-wrapper textarea {
+            margin-top: 0;
+            padding-right: 60px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            color: #8b5cf6;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .copy-btn.copied {
+            background: rgba(34, 211, 238, 0.3);
+            border-color: #22d3ee;
+            color: #22d3ee;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 18px;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.25);
+        }
+
+        .encode {
+            background: linear-gradient(90deg, #7c3aed, #22d3ee);
+        }
+
+        .decode {
+            background: linear-gradient(90deg, #0f172a, #1e293b);
+        }
+
+        body.light .decode {
+            background: linear-gradient(90deg, #e5e7eb, #d1d5db);
+            color: #1f2937;
+        }
+
+        .footer {
+            margin-top: 22px;
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        body.light .footer {
+            color: #4b5563;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <div class="title">
+            <h1>⚡ Cat Encoder</h1>
+            <p id="subtitle">Шифрование и кодирование текста</p>
+        </div>
 
-<div class="lines"></div>
+        <div class="top-bar">
+            <select class="lang-select" id="langSelect">
+                <option value="ru">🇷🇺 Русский</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="zh">🇨🇳 中文</option>
+            </select>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
 
-<div class="container">
+        <textarea id="inputText" placeholder="Введите текст..."></textarea>
 
-    <div class="title">
-        <h1>⚡ cat encryption</h1>
-        <p>
-            Base64 • HEX • Binary • URL Encode • Reverse
-        </p>
+        <select id="methodSelect">
+            <option value="base64">🔐 Base64</option>
+            <option value="url">🌐 URL Encode</option>
+            <option value="binary">💻 Binary</option>
+            <option value="hex">🧩 HEX</option>
+            <option value="reverse">🔄 Reverse</option>
+            <option value="xor">🔑 XOR Cipher</option>
+            <option value="aes">🔒 AES-256</option>
+        </select>
+
+        <input id="keyInput" type="text" placeholder="Ключ для XOR / AES (если нужен)">
+
+        <div class="buttons">
+            <button class="encode" id="encodeBtn">Зашифровать</button>
+            <button class="decode" id="decodeBtn">Расшифровать</button>
+        </div>
+
+        <div class="output-wrapper">
+            <textarea id="outputText" placeholder="Результат..."></textarea>
+            <button class="copy-btn" id="copyBtn">📋</button>
+        </div>
+
+        <div class="footer" id="footerText">Cyber Encoder Pro • Neon UI</div>
     </div>
 
-    <textarea
-    id="input"
-    placeholder="Enter the text..."
-    ></textarea>
+    <script>
+        // ==================== ЯЗЫКИ ====================
+        const translations = {
+            ru: {
+                subtitle: 'Шифрование и кодирование текста',
+                inputPlaceholder: 'Введите текст...',
+                keyPlaceholder: 'Ключ для XOR / AES (если нужен)',
+                outputPlaceholder: 'Результат...',
+                encodeBtn: 'Зашифровать',
+                decodeBtn: 'Расшифровать',
+                footer: 'Cyber Encoder Pro • Neon UI',
+                alertEncode: 'Ошибка шифрования',
+                alertDecode: 'Ошибка расшифровки'
+            },
+            en: {
+                subtitle: 'Encryption & Encoding',
+                inputPlaceholder: 'Enter text...',
+                keyPlaceholder: 'Key for XOR / AES (if needed)',
+                outputPlaceholder: 'Result...',
+                encodeBtn: 'Encrypt',
+                decodeBtn: 'Decrypt',
+                footer: 'Cyber Encoder cat • Neon UI',
+                alertEncode: 'Encryption error',
+                alertDecode: 'Decryption error'
+            },
+            zh: {
+                subtitle: '加密与编码',
+                inputPlaceholder: '输入文本...',
+                keyPlaceholder: 'XOR / AES 密钥（如果需要）',
+                outputPlaceholder: '结果...',
+                encodeBtn: '加密',
+                decodeBtn: '解密',
+                footer: 'Cyber Encoder cat • Neon UI',
+                alertEncode: '加密错误',
+                alertDecode: '解密错误'
+            }
+        };
 
-    <select id="method">
+        // ==================== DOM ====================
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const methodSelect = document.getElementById('methodSelect');
+        const keyInput = document.getElementById('keyInput');
+        const encodeBtn = document.getElementById('encodeBtn');
+        const decodeBtn = document.getElementById('decodeBtn');
+        const langSelect = document.getElementById('langSelect');
+        const themeToggle = document.getElementById('themeToggle');
+        const subtitle = document.getElementById('subtitle');
+        const footerText = document.getElementById('footerText');
+        const copyBtn = document.getElementById('copyBtn');
 
-        <option value="base64">
-            🔐 Base64
-        </option>
-
-        <option value="url">
-            🌐 URL Encode
-        </option>
-
-        <option value="binary">
-            💻 Binary
-        </option>
-
-        <option value="hex">
-            🧩 HEX
-        </option>
-
-        <option value="reverse">
-            🔄 Reverse
-        </option>
-
-    </select>
-
-    <div class="buttons">
-
-        <button
-        class="encode"
-        onclick="encodeText()">
-           Encrypt it
-        </button>
-
-        <button
-        class="decode"
-        onclick="decodeText()">
-            Decrypt
-        </button>
-
-    </div>
-
-    <textarea
-    id="output"
-    placeholder="Result..."
-    ></textarea>
-
-    <div class="footer">
-        The site was designed to encrypt and decrypt text.
-    </div>
-
-</div>
-
-<script>
-
-function encodeText(){
-
-    let text =
-    document.getElementById("input").value;
-
-    let method =
-    document.getElementById("method").value;
-
-    let result = "";
-
-    try{
-
-        switch(method){
-
-            case "base64":
-
-                result =
-                btoa(
-                unescape(
-                encodeURIComponent(text)
-                ));
-
-            break;
-
-            case "url":
-
-                result =
-                encodeURIComponent(text);
-
-            break;
-
-            case "binary":
-
-                result =
-                text.split("")
-                .map(c =>
-                c.charCodeAt(0).toString(2))
-                .join(" ");
-
-            break;
-
-            case "hex":
-
-                result =
-                text.split("")
-                .map(c =>
-                c.charCodeAt(0).toString(16))
-                .join(" ");
-
-            break;
-
-            case "reverse":
-
-                result =
-                text.split("")
-                .reverse()
-                .join("");
-
-            break;
+        // ==================== ПРИМЕНЕНИЕ ЯЗЫКА ====================
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            subtitle.textContent = t.subtitle;
+            inputText.placeholder = t.inputPlaceholder;
+            keyInput.placeholder = t.keyPlaceholder;
+            outputText.placeholder = t.outputPlaceholder;
+            encodeBtn.textContent = t.encodeBtn;
+            decodeBtn.textContent = t.decodeBtn;
+            footerText.textContent = t.footer;
+            window._lang = t;
         }
 
-        document.getElementById("output")
-        .value = result;
+        langSelect.addEventListener('change', function() {
+            applyLanguage(this.value);
+        });
 
-    }catch(e){
-
-        alert("Ошибка шифрования");
-
-    }
-
-}
-
-function decodeText(){
-
-    let text =
-    document.getElementById("input").value;
-
-    let method =
-    document.getElementById("method").value;
-
-    let result = "";
-
-    try{
-
-        switch(method){
-
-            case "base64":
-
-                result =
-                decodeURIComponent(
-                escape(
-                atob(text)
-                ));
-
-            break;
-
-            case "url":
-
-                result =
-                decodeURIComponent(text);
-
-            break;
-
-            case "binary":
-
-                result =
-                text.split(" ")
-                .map(b =>
-                String.fromCharCode(
-                parseInt(b,2)
-                ))
-                .join("");
-
-            break;
-
-            case "hex":
-
-                result =
-                text.split(" ")
-                .map(h =>
-                String.fromCharCode(
-                parseInt(h,16)
-                ))
-                .join("");
-
-            break;
-
-            case "reverse":
-
-                result =
-                text.split("")
-                .reverse()
-                .join("");
-
-            break;
+        // ==================== ТЕМА ====================
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light');
+                themeToggle.textContent = '☀️';
+            } else {
+                document.body.classList.remove('light');
+                themeToggle.textContent = '🌙';
+            }
+            localStorage.setItem('theme', theme);
         }
 
-        document.getElementById("output")
-        .value = result;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
 
-    }catch(e){
+        themeToggle.addEventListener('click', function() {
+            const isLight = document.body.classList.contains('light');
+            setTheme(isLight ? 'dark' : 'light');
+        });
 
-        alert("Ошибка расшифровки");
+        // ==================== КОПИРОВАНИЕ ====================
+        copyBtn.addEventListener('click', function() {
+            const text = outputText.value;
+            if (!text) return;
 
-    }
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    this.textContent = '✅';
+                    this.classList.add('copied');
+                    setTimeout(() => {
+                        this.textContent = '📋';
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            } else {
+                outputText.select();
+                document.execCommand('copy');
+                this.textContent = '✅';
+                setTimeout(() => this.textContent = '📋', 2000);
+            }
+        });
 
-}
+        // ==================== ФУНКЦИИ ШИФРОВАНИЯ ====================
 
-</script>
+        // XOR
+        function xorCipher(text, key) {
+            if (!key || key.length === 0) return text;
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return result;
+        }
 
+        // AES-256
+        async function aesEncrypt(text, key) {
+            if (!key || key.length === 0) throw new Error('Ключ не указан');
+            
+            const encoder = new TextEncoder();
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw', encoder.encode(key), 'PBKDF2', false, ['deriveKey']
+            );
+            
+            const derivedKey = await crypto.subtle.deriveKey(
+                { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt']
+            );
+            
+            const encrypted = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: iv },
+                derivedKey,
+                encoder.encode(text)
+            );
+            
+            const result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+            result.set(salt, 0);
+            result.set(iv, salt.length);
+            result.set(new Uint8Array(encrypted), salt.length + iv.length);
+            
+            let binary = '';
+            for (let i = 0; i < result.length; i++) {
+                binary += String.fromCharCode(result[i]);
+            }
+            return btoa(binary);
+        }
+
+        async function aesDecrypt(encoded, key) {
+            if (!key || key.length === 0) throw new Error('Ключ не указан');
+            
+            const binary = atob(encoded);
+            const data = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                data[i] = binary.charCodeAt(i);
+            }
+            
+            const salt = data.slice(0, 16);
+            const iv = data.slice(16, 28);
+            const encrypted = data.slice(28);
+            
+            const encoder = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw', encoder.encode(key), 'PBKDF2', false, ['deriveKey']
+            );
+            
+            const derivedKey = await crypto.subtle.deriveKey(
+                { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['decrypt']
+            );
+            
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                derivedKey,
+                encrypted
+            );
+            
+            return new TextDecoder().decode(decrypted);
+        }
+
+        // ==================== ГЛАВНЫЕ ФУНКЦИИ ====================
+
+        window.encodeText = async function() {
+            const text = inputText.value;
+            const method = methodSelect.value;
+            const key = keyInput.value;
+            const lang = window._lang || translations.ru;
+
+            if (!text) {
+                alert('Введите текст!');
+                return;
+            }
+
+            try {
+                let result = '';
+
+                switch(method) {
+                    case 'base64':
+                        result = btoa(unescape(encodeURIComponent(text)));
+                        break;
+                    case 'url':
+                        result = encodeURIComponent(text);
+                        break;
+                    case 'binary':
+                        result = text.split('').map(c => 
+                            c.charCodeAt(0).toString(2).padStart(8, '0')
+                        ).join(' ');
+                        break;
+                    case 'hex':
+                        result = text.split('').map(c => 
+                            c.charCodeAt(0).toString(16).padStart(2, '0')
+                        ).join(' ');
+                        break;
+                    case 'reverse':
+                        result = text.split('').reverse().join('');
+                        break;
+                    case 'xor':
+                        const xorEncoded = xorCipher(text, key);
+                        result = btoa(unescape(encodeURIComponent(xorEncoded)));
+                        break;
+                    case 'aes':
+                        result = await aesEncrypt(text, key);
+                        break;
+                }
+
+                outputText.value = result;
+            } catch(e) {
+                alert(lang.alertEncode + ': ' + e.message);
+                console.error(e);
+            }
+        };
+
+        window.decodeText = async function() {
+            const text = inputText.value;
+            const method = methodSelect.value;
+            const key = keyInput.value;
+            const lang = window._lang || translations.ru;
+
+            if (!text) {
+                alert('Введите текст!');
+                return;
+            }
+
+            try {
+                let result = '';
+
+                switch(method) {
+                    case 'base64':
+                        result = decodeURIComponent(escape(atob(text)));
+                        break;
+                    case 'url':
+                        result = decodeURIComponent(text);
+                        break;
+                    case 'binary':
+                        const binaryParts = text.split(' ');
+                        result = binaryParts.map(b => String.fromCharCode(parseInt(b, 2))).join('');
+                        break;
+                    case 'hex':
+                        const hexParts = text.split(' ');
+                        result = hexParts.map(h => String.fromCharCode(parseInt(h, 16))).join('');
+                        break;
+                    case 'reverse':
+                        result = text.split('').reverse().join('');
+                        break;
+                    case 'xor':
+                        const xorDecoded = decodeURIComponent(escape(atob(text)));
+                        result = xorCipher(xorDecoded, key);
+                        break;
+                    case 'aes':
+                        result = await aesDecrypt(text, key);
+                        break;
+                }
+
+                outputText.value = result;
+            } catch(e) {
+                alert(lang.alertDecode + ': ' + e.message);
+                console.error(e);
+            }
+        };
+
+        // ==================== НАЗНАЧАЕМ ОБРАБОТЧИКИ ====================
+        encodeBtn.onclick = window.encodeText;
+        decodeBtn.onclick = window.decodeText;
+
+        // ==================== ЗАГРУЗКА ====================
+        applyLanguage('ru');
+        window._lang = translations.ru;
+
+        console.log('✅ Cat Encoder');
+        console.log('📝 Введите текст и нажмите "Зашифровать"');
+    </script>
 </body>
-  </html>
+</html>
