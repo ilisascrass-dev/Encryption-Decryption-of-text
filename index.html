@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cat Encoder</title>
+    <title>Cat Encoder Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
@@ -23,12 +18,7 @@
             color: #f0f0f0;
             transition: 0.5s;
         }
-
-        body.light {
-            background: #f0f4ff;
-            color: #111827;
-        }
-
+        body.light { background: #f0f4ff; color: #111827; }
         .container {
             position: relative;
             z-index: 2;
@@ -39,21 +29,11 @@
             border-radius: 32px;
             padding: 28px 26px;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
             transition: 0.5s;
         }
-
-        body.light .container {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .title {
-            text-align: center;
-            margin-bottom: 22px;
-        }
-
+        body.light .container { background: rgba(255, 255, 255, 0.85); border-color: rgba(0,0,0,0.08); }
+        .title { text-align: center; margin-bottom: 22px; }
         .title h1 {
             font-size: 38px;
             font-weight: 700;
@@ -61,25 +41,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .title p {
-            margin-top: 4px;
-            color: #9ca3af;
-        }
-
-        body.light .title p {
-            color: #4b5563;
-        }
-
+        .title p { margin-top: 4px; color: #9ca3af; }
+        body.light .title p { color: #4b5563; }
         .top-bar {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             align-items: center;
             justify-content: flex-end;
             margin-bottom: 8px;
+            flex-wrap: wrap;
         }
-
-        .lang-select, .theme-toggle {
+        .lang-select, .theme-toggle, .cabinet-link, .auth-btn {
             padding: 8px 14px;
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -90,22 +62,21 @@
             cursor: pointer;
             outline: none;
             transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
         }
-
-        body.light .lang-select, body.light .theme-toggle {
+        body.light .lang-select, body.light .theme-toggle, body.light .cabinet-link, body.light .auth-btn {
             background: rgba(0, 0, 0, 0.04);
             border-color: rgba(0, 0, 0, 0.06);
         }
-
-        .lang-select:hover, .theme-toggle:hover {
+        .lang-select:hover, .theme-toggle:hover, .cabinet-link:hover, .auth-btn:hover {
             border-color: #8b5cf6;
+            transform: scale(1.05);
         }
-
-        .theme-toggle {
-            font-size: 20px;
-            padding: 6px 14px;
-        }
-
+        .auth-btn { background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.3); }
+        .auth-btn.logout { background: rgba(255, 82, 82, 0.15); border-color: rgba(255, 82, 82, 0.3); color: #ff5252; }
+        .theme-toggle { font-size: 20px; padding: 6px 14px; }
         textarea, select, input {
             width: 100%;
             margin-top: 14px;
@@ -119,38 +90,19 @@
             font-size: 15px;
             transition: 0.3s;
         }
-
         body.light textarea, body.light select, body.light input {
             background: rgba(0, 0, 0, 0.03);
             border-color: rgba(0, 0, 0, 0.10);
             color: #111827;
         }
-
-        body.light option {
-            background: #ffffff;
-            color: #111827;
-        }
-
-        textarea {
-            min-height: 140px;
-            resize: vertical;
-        }
-
+        body.light option { background: #ffffff; color: #111827; }
+        textarea { min-height: 140px; resize: vertical; }
         textarea:focus, select:focus, input:focus {
             border-color: #8b5cf6 !important;
             box-shadow: 0 0 24px rgba(139, 92, 246, 0.25);
         }
-
-        .output-wrapper {
-            position: relative;
-            margin-top: 14px;
-        }
-
-        .output-wrapper textarea {
-            margin-top: 0;
-            padding-right: 60px;
-        }
-
+        .output-wrapper { position: relative; margin-top: 14px; }
+        .output-wrapper textarea { margin-top: 0; padding-right: 60px; }
         .copy-btn {
             position: absolute;
             right: 12px;
@@ -165,25 +117,23 @@
             font-size: 20px;
             transition: 0.3s;
         }
-
-        .copy-btn:hover {
-            background: rgba(139, 92, 246, 0.3);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .copy-btn.copied {
-            background: rgba(34, 211, 238, 0.3);
-            border-color: #22d3ee;
+        .copy-btn:hover { background: rgba(139, 92, 246, 0.3); transform: translateY(-50%) scale(1.1); }
+        .copy-btn.copied { background: rgba(34, 211, 238, 0.3); border-color: #22d3ee; color: #22d3ee; }
+        .buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .save-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            transition: 0.3s;
+            background: rgba(34, 211, 238, 0.15);
+            border: 1px solid rgba(34, 211, 238, 0.2);
             color: #22d3ee;
         }
-
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
+        .save-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(34, 211, 238, 0.2); background: rgba(34, 211, 238, 0.25); }
         button {
             padding: 18px;
             border: none;
@@ -194,34 +144,113 @@
             color: white;
             transition: 0.3s;
         }
-
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.25);
-        }
-
-        .encode {
-            background: linear-gradient(90deg, #7c3aed, #22d3ee);
-        }
-
-        .decode {
-            background: linear-gradient(90deg, #0f172a, #1e293b);
-        }
-
-        body.light .decode {
-            background: linear-gradient(90deg, #e5e7eb, #d1d5db);
-            color: #1f2937;
-        }
-
-        .footer {
-            margin-top: 22px;
+        button:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(139, 92, 246, 0.25); }
+        .encode { background: linear-gradient(90deg, #7c3aed, #22d3ee); }
+        .decode { background: linear-gradient(90deg, #0f172a, #1e293b); }
+        body.light .decode { background: linear-gradient(90deg, #e5e7eb, #d1d5db); color: #1f2937; }
+        .footer { margin-top: 22px; text-align: center; font-size: 13px; color: #9ca3af; }
+        body.light .footer { color: #4b5563; }
+        .user-info {
             text-align: center;
             font-size: 13px;
-            color: #9ca3af;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 6px;
         }
+        body.light .user-info { color: rgba(0, 0, 0, 0.4); }
+        .user-info span { color: #8b5cf6; }
 
-        body.light .footer {
-            color: #4b5563;
+        /* ===== МОДАЛЬНОЕ ОКНО АВТОРИЗАЦИИ ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        .modal.show { display: flex; }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 32px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.2);
+        }
+        body.light .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .modal-title span {
+            background: linear-gradient(90deg, #8b5cf6, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .modal input {
+            margin-top: 12px;
+        }
+        .modal button {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 20px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+            background: linear-gradient(90deg, #7c3aed, #22d3ee);
+        }
+        .modal button:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3); }
+        .modal .switch-btn {
+            background: transparent;
+            color: #8b5cf6;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .modal .switch-btn:hover { background: rgba(139, 92, 246, 0.1); box-shadow: none; transform: none; }
+        .modal .close-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        body.light .modal .close-btn { color: rgba(0, 0, 0, 0.4); background: rgba(0, 0, 0, 0.03); }
+        .modal .close-btn:hover { background: rgba(255, 82, 82, 0.1); color: #ff5252; }
+        .modal .error-msg {
+            color: #ff5252;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+        .modal .success-msg {
+            color: #22d3ee;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 18px; }
+            .title h1 { font-size: 28px; }
+            .modal-content { padding: 20px; margin: 10px; }
         }
     </style>
 </head>
@@ -238,8 +267,12 @@
                 <option value="en">🇬🇧 English</option>
                 <option value="zh">🇨🇳 中文</option>
             </select>
+            <button class="auth-btn" id="authBtn">🔑 Войти</button>
+            <a href="cabinet.html" class="cabinet-link" target="_blank">📁 Кабинет</a>
             <button class="theme-toggle" id="themeToggle">🌙</button>
         </div>
+
+        <div class="user-info" id="userInfo"></div>
 
         <textarea id="inputText" placeholder="Введите текст..."></textarea>
 
@@ -258,6 +291,7 @@
         <div class="buttons">
             <button class="encode" id="encodeBtn">Зашифровать</button>
             <button class="decode" id="decodeBtn">Расшифровать</button>
+            <button class="save-btn" id="saveBtn">💾 Сохранить в кабинет</button>
         </div>
 
         <div class="output-wrapper">
@@ -268,45 +302,254 @@
         <div class="footer" id="footerText">Cyber Encoder Pro • Neon UI</div>
     </div>
 
+    <!-- ===== МОДАЛЬНОЕ ОКНО АВТОРИЗАЦИИ ===== -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-title">🔐 <span id="authModalTitle">Вход</span></div>
+            <input type="text" id="authLogin" placeholder="Логин">
+            <input type="password" id="authPassword" placeholder="Пароль">
+            <div class="error-msg" id="authError">❌ Неверный логин или пароль</div>
+            <div class="success-msg" id="authSuccess">✅ Успешно!</div>
+            <button id="authSubmitBtn">Войти</button>
+            <button class="switch-btn" id="authSwitchBtn">Нет аккаунта? Зарегистрироваться</button>
+            <button class="close-btn" id="authCloseBtn">Закрыть</button>
+        </div>
+    </div>
+
     <script>
-        // ==================== ЯЗЫКИ ====================
-        const translations = {
-            ru: {
-                subtitle: 'Шифрование и кодирование текста',
-                inputPlaceholder: 'Введите текст...',
-                keyPlaceholder: 'Ключ для XOR / AES (если нужен)',
-                outputPlaceholder: 'Результат...',
-                encodeBtn: 'Зашифровать',
-                decodeBtn: 'Расшифровать',
-                footer: 'Cyber Encoder Pro • Neon UI',
-                alertEncode: 'Ошибка шифрования',
-                alertDecode: 'Ошибка расшифровки'
-            },
-            en: {
-                subtitle: 'Encryption & Encoding',
-                inputPlaceholder: 'Enter text...',
-                keyPlaceholder: 'Key for XOR / AES (if needed)',
-                outputPlaceholder: 'Result...',
-                encodeBtn: 'Encrypt',
-                decodeBtn: 'Decrypt',
-                footer: 'Cyber Encoder cat • Neon UI',
-                alertEncode: 'Encryption error',
-                alertDecode: 'Decryption error'
-            },
-            zh: {
-                subtitle: '加密与编码',
-                inputPlaceholder: '输入文本...',
-                keyPlaceholder: 'XOR / AES 密钥（如果需要）',
-                outputPlaceholder: '结果...',
-                encodeBtn: '加密',
-                decodeBtn: '解密',
-                footer: 'Cyber Encoder cat • Neon UI',
-                alertEncode: '加密错误',
-                alertDecode: '解密错误'
+        // ============================================================
+        //  СИСТЕМА АККАУНТОВ
+        // ============================================================
+
+        // Хранилище пользователей
+        function getUsers() {
+            try {
+                return JSON.parse(localStorage.getItem('cyber_users')) || {};
+            } catch {
+                return {};
             }
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('cyber_users', JSON.stringify(users));
+        }
+
+        // Текущий пользователь
+        function getCurrentUser() {
+            return localStorage.getItem('cyber_current_user') || null;
+        }
+
+        function setCurrentUser(username) {
+            if (username) {
+                localStorage.setItem('cyber_current_user', username);
+            } else {
+                localStorage.removeItem('cyber_current_user');
+            }
+        }
+
+        // Получить записи пользователя
+        function getUserRecords(username) {
+            const users = getUsers();
+            if (!users[username]) return [];
+            return users[username].records || [];
+        }
+
+        // Сохранить записи пользователя
+        function setUserRecords(username, records) {
+            const users = getUsers();
+            if (!users[username]) {
+                users[username] = { password: '', records: [] };
+            }
+            users[username].records = records;
+            saveUsers(users);
+        }
+
+        // ============================================================
+        //  АВТОРИЗАЦИЯ
+        // ============================================================
+
+        let isLoginMode = true;
+
+        function updateAuthUI() {
+            const user = getCurrentUser();
+            const authBtn = document.getElementById('authBtn');
+            const userInfo = document.getElementById('userInfo');
+
+            if (user) {
+                authBtn.textContent = `👤 ${user}`;
+                authBtn.classList.add('logout');
+                userInfo.innerHTML = `✅ Вы вошли как <span>${user}</span>`;
+            } else {
+                authBtn.textContent = '🔑 Войти';
+                authBtn.classList.remove('logout');
+                userInfo.textContent = '👤 Не авторизован';
+            }
+        }
+
+        function openAuthModal(mode) {
+            isLoginMode = mode === 'login' ? true : false;
+            const modal = document.getElementById('authModal');
+            const title = document.getElementById('authModalTitle');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const switchBtn = document.getElementById('authSwitchBtn');
+            const errorMsg = document.getElementById('authError');
+            const successMsg = document.getElementById('authSuccess');
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (isLoginMode) {
+                title.textContent = 'Вход';
+                submitBtn.textContent = 'Войти';
+                switchBtn.textContent = 'Нет аккаунта? Зарегистрироваться';
+            } else {
+                title.textContent = 'Регистрация';
+                submitBtn.textContent = 'Зарегистрироваться';
+                switchBtn.textContent = 'Уже есть аккаунт? Войти';
+            }
+
+            document.getElementById('authLogin').value = '';
+            document.getElementById('authPassword').value = '';
+            modal.classList.add('show');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('show');
+        }
+
+        function handleAuth() {
+            const login = document.getElementById('authLogin').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            const errorMsg = document.getElementById('authError');
+            const successMsg = document.getElementById('authSuccess');
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (!login || !password) {
+                errorMsg.textContent = '❌ Заполни все поля!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            const users = getUsers();
+
+            if (isLoginMode) {
+                // Вход
+                if (!users[login] || users[login].password !== password) {
+                    errorMsg.textContent = '❌ Неверный логин или пароль!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                setCurrentUser(login);
+                successMsg.textContent = '✅ Добро пожаловать, ' + login + '!';
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateAuthUI();
+                    loadUserRecords();
+                }, 500);
+            } else {
+                // Регистрация
+                if (users[login]) {
+                    errorMsg.textContent = '❌ Пользователь уже существует!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                users[login] = { password: password, records: [] };
+                saveUsers(users);
+                setCurrentUser(login);
+                successMsg.textContent = '✅ Аккаунт создан! Добро пожаловать, ' + login + '!';
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateAuthUI();
+                    loadUserRecords();
+                }, 500);
+            }
+        }
+
+        function logout() {
+            if (confirm('Выйти из аккаунта?')) {
+                setCurrentUser(null);
+                updateAuthUI();
+                // Очищаем общее хранилище
+                localStorage.removeItem('cyber_records');
+                // Перезагружаем страницу, чтобы всё обновилось
+                location.reload();
+            }
+        }
+
+        // ============================================================
+        //  ЗАГРУЗКА ЗАПИСЕЙ ПОЛЬЗОВАТЕЛЯ
+        // ============================================================
+
+        function loadUserRecords() {
+            const user = getCurrentUser();
+            if (user) {
+                const records = getUserRecords(user);
+                // Сохраняем в общее хранилище для совместимости
+                localStorage.setItem('cyber_records', JSON.stringify(records));
+            }
+        }
+
+        // ============================================================
+        //  СОХРАНЕНИЕ ЗАПИСИ В АККАУНТ
+        // ============================================================
+
+        function saveToCabinet() {
+            const user = getCurrentUser();
+            if (!user) {
+                alert('Сначала войди в аккаунт! 🔑');
+                openAuthModal('login');
+                return;
+            }
+
+            const text = document.getElementById('inputText').value;
+            const result = document.getElementById('outputText').value;
+            const method = document.getElementById('methodSelect').value;
+            const key = document.getElementById('keyInput').value;
+
+            if (!result) {
+                alert('Сначала зашифруй или расшифруй текст!');
+                return;
+            }
+
+            const records = getUserRecords(user);
+            records.push({
+                id: Date.now(),
+                date: new Date().toISOString(),
+                text: text || '(пусто)',
+                result: result,
+                method: method,
+                key: key || ''
+            });
+            setUserRecords(user, records);
+
+            // Обновляем общее хранилище
+            localStorage.setItem('cyber_records', JSON.stringify(records));
+
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.textContent = '✅ Сохранено!';
+            saveBtn.style.borderColor = '#22d3ee';
+            setTimeout(() => {
+                saveBtn.textContent = '💾 Сохранить в кабинет';
+                saveBtn.style.borderColor = 'rgba(34, 211, 238, 0.2)';
+            }, 2000);
+
+            console.log('✅ Запись сохранена в аккаунт', user);
+        }
+
+        // ============================================================
+        //  ЯЗЫКИ, ТЕМА, ШИФРОВАНИЕ (твои оригинальные функции)
+        // ============================================================
+
+        const translations = {
+            ru: { subtitle:'Шифрование и кодирование текста', inputPlaceholder:'Введите текст...', keyPlaceholder:'Ключ для XOR / AES (если нужен)', outputPlaceholder:'Результат...', encodeBtn:'Зашифровать', decodeBtn:'Расшифровать', footer:'Cyber Encoder Pro • Neon UI', alertEncode:'Ошибка шифрования', alertDecode:'Ошибка расшифровки' },
+            en: { subtitle:'Encryption & Encoding', inputPlaceholder:'Enter text...', keyPlaceholder:'Key for XOR / AES (if needed)', outputPlaceholder:'Result...', encodeBtn:'Encrypt', decodeBtn:'Decrypt', footer:'Cyber Encoder Pro • Neon UI', alertEncode:'Encryption error', alertDecode:'Decryption error' },
+            zh: { subtitle:'加密与编码', inputPlaceholder:'输入文本...', keyPlaceholder:'XOR / AES 密钥（如果需要）', outputPlaceholder:'结果...', encodeBtn:'加密', decodeBtn:'解密', footer:'Cyber Encoder Pro • Neon UI', alertEncode:'加密错误', alertDecode:'解密错误' }
         };
 
-        // ==================== DOM ====================
         const inputText = document.getElementById('inputText');
         const outputText = document.getElementById('outputText');
         const methodSelect = document.getElementById('methodSelect');
@@ -318,8 +561,8 @@
         const subtitle = document.getElementById('subtitle');
         const footerText = document.getElementById('footerText');
         const copyBtn = document.getElementById('copyBtn');
+        const saveBtn = document.getElementById('saveBtn');
 
-        // ==================== ПРИМЕНЕНИЕ ЯЗЫКА ====================
         function applyLanguage(lang) {
             const t = translations[lang];
             subtitle.textContent = t.subtitle;
@@ -331,44 +574,27 @@
             footerText.textContent = t.footer;
             window._lang = t;
         }
+        langSelect.addEventListener('change', function() { applyLanguage(this.value); });
 
-        langSelect.addEventListener('change', function() {
-            applyLanguage(this.value);
-        });
-
-        // ==================== ТЕМА ====================
         function setTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light');
-                themeToggle.textContent = '☀️';
-            } else {
-                document.body.classList.remove('light');
-                themeToggle.textContent = '🌙';
-            }
+            if (theme === 'light') { document.body.classList.add('light'); themeToggle.textContent = '☀️'; }
+            else { document.body.classList.remove('light'); themeToggle.textContent = '🌙'; }
             localStorage.setItem('theme', theme);
         }
-
         const savedTheme = localStorage.getItem('theme') || 'dark';
         setTheme(savedTheme);
-
         themeToggle.addEventListener('click', function() {
-            const isLight = document.body.classList.contains('light');
-            setTheme(isLight ? 'dark' : 'light');
+            setTheme(document.body.classList.contains('light') ? 'dark' : 'light');
         });
 
-        // ==================== КОПИРОВАНИЕ ====================
         copyBtn.addEventListener('click', function() {
             const text = outputText.value;
             if (!text) return;
-
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(text).then(() => {
                     this.textContent = '✅';
                     this.classList.add('copied');
-                    setTimeout(() => {
-                        this.textContent = '📋';
-                        this.classList.remove('copied');
-                    }, 2000);
+                    setTimeout(() => { this.textContent = '📋'; this.classList.remove('copied'); }, 2000);
                 });
             } else {
                 outputText.select();
@@ -378,9 +604,7 @@
             }
         });
 
-        // ==================== ФУНКЦИИ ШИФРОВАНИЯ ====================
-
-        // XOR
+        // ========== ФУНКЦИИ ШИФРОВАНИЯ ==========
         function xorCipher(text, key) {
             if (!key || key.length === 0) return text;
             let result = '';
@@ -390,18 +614,12 @@
             return result;
         }
 
-        // AES-256
         async function aesEncrypt(text, key) {
             if (!key || key.length === 0) throw new Error('Ключ не указан');
-            
             const encoder = new TextEncoder();
             const salt = crypto.getRandomValues(new Uint8Array(16));
             const iv = crypto.getRandomValues(new Uint8Array(12));
-            
-            const keyMaterial = await crypto.subtle.importKey(
-                'raw', encoder.encode(key), 'PBKDF2', false, ['deriveKey']
-            );
-            
+            const keyMaterial = await crypto.subtle.importKey('raw', encoder.encode(key), 'PBKDF2', false, ['deriveKey']);
             const derivedKey = await crypto.subtle.deriveKey(
                 { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
                 keyMaterial,
@@ -409,18 +627,15 @@
                 false,
                 ['encrypt']
             );
-            
             const encrypted = await crypto.subtle.encrypt(
                 { name: 'AES-GCM', iv: iv },
                 derivedKey,
                 encoder.encode(text)
             );
-            
             const result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
             result.set(salt, 0);
             result.set(iv, salt.length);
             result.set(new Uint8Array(encrypted), salt.length + iv.length);
-            
             let binary = '';
             for (let i = 0; i < result.length; i++) {
                 binary += String.fromCharCode(result[i]);
@@ -430,22 +645,16 @@
 
         async function aesDecrypt(encoded, key) {
             if (!key || key.length === 0) throw new Error('Ключ не указан');
-            
             const binary = atob(encoded);
             const data = new Uint8Array(binary.length);
             for (let i = 0; i < binary.length; i++) {
                 data[i] = binary.charCodeAt(i);
             }
-            
             const salt = data.slice(0, 16);
             const iv = data.slice(16, 28);
             const encrypted = data.slice(28);
-            
             const encoder = new TextEncoder();
-            const keyMaterial = await crypto.subtle.importKey(
-                'raw', encoder.encode(key), 'PBKDF2', false, ['deriveKey']
-            );
-            
+            const keyMaterial = await crypto.subtle.importKey('raw', encoder.encode(key), 'PBKDF2', false, ['deriveKey']);
             const derivedKey = await crypto.subtle.deriveKey(
                 { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
                 keyMaterial,
@@ -453,61 +662,32 @@
                 false,
                 ['decrypt']
             );
-            
             const decrypted = await crypto.subtle.decrypt(
                 { name: 'AES-GCM', iv: iv },
                 derivedKey,
                 encrypted
             );
-            
             return new TextDecoder().decode(decrypted);
         }
 
-        // ==================== ГЛАВНЫЕ ФУНКЦИИ ====================
-
+        // ========== ГЛАВНЫЕ ФУНКЦИИ ==========
         window.encodeText = async function() {
             const text = inputText.value;
             const method = methodSelect.value;
             const key = keyInput.value;
             const lang = window._lang || translations.ru;
-
-            if (!text) {
-                alert('Введите текст!');
-                return;
-            }
-
+            if (!text) { alert('Введите текст!'); return; }
             try {
                 let result = '';
-
                 switch(method) {
-                    case 'base64':
-                        result = btoa(unescape(encodeURIComponent(text)));
-                        break;
-                    case 'url':
-                        result = encodeURIComponent(text);
-                        break;
-                    case 'binary':
-                        result = text.split('').map(c => 
-                            c.charCodeAt(0).toString(2).padStart(8, '0')
-                        ).join(' ');
-                        break;
-                    case 'hex':
-                        result = text.split('').map(c => 
-                            c.charCodeAt(0).toString(16).padStart(2, '0')
-                        ).join(' ');
-                        break;
-                    case 'reverse':
-                        result = text.split('').reverse().join('');
-                        break;
-                    case 'xor':
-                        const xorEncoded = xorCipher(text, key);
-                        result = btoa(unescape(encodeURIComponent(xorEncoded)));
-                        break;
-                    case 'aes':
-                        result = await aesEncrypt(text, key);
-                        break;
+                    case 'base64': result = btoa(unescape(encodeURIComponent(text))); break;
+                    case 'url': result = encodeURIComponent(text); break;
+                    case 'binary': result = text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' '); break;
+                    case 'hex': result = text.split('').map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join(' '); break;
+                    case 'reverse': result = text.split('').reverse().join(''); break;
+                    case 'xor': const xorEncoded = xorCipher(text, key); result = btoa(unescape(encodeURIComponent(xorEncoded))); break;
+                    case 'aes': result = await aesEncrypt(text, key); break;
                 }
-
                 outputText.value = result;
             } catch(e) {
                 alert(lang.alertEncode + ': ' + e.message);
@@ -520,42 +700,18 @@
             const method = methodSelect.value;
             const key = keyInput.value;
             const lang = window._lang || translations.ru;
-
-            if (!text) {
-                alert('Введите текст!');
-                return;
-            }
-
+            if (!text) { alert('Введите текст!'); return; }
             try {
                 let result = '';
-
                 switch(method) {
-                    case 'base64':
-                        result = decodeURIComponent(escape(atob(text)));
-                        break;
-                    case 'url':
-                        result = decodeURIComponent(text);
-                        break;
-                    case 'binary':
-                        const binaryParts = text.split(' ');
-                        result = binaryParts.map(b => String.fromCharCode(parseInt(b, 2))).join('');
-                        break;
-                    case 'hex':
-                        const hexParts = text.split(' ');
-                        result = hexParts.map(h => String.fromCharCode(parseInt(h, 16))).join('');
-                        break;
-                    case 'reverse':
-                        result = text.split('').reverse().join('');
-                        break;
-                    case 'xor':
-                        const xorDecoded = decodeURIComponent(escape(atob(text)));
-                        result = xorCipher(xorDecoded, key);
-                        break;
-                    case 'aes':
-                        result = await aesDecrypt(text, key);
-                        break;
+                    case 'base64': result = decodeURIComponent(escape(atob(text))); break;
+                    case 'url': result = decodeURIComponent(text); break;
+                    case 'binary': result = text.split(' ').map(b => String.fromCharCode(parseInt(b, 2))).join(''); break;
+                    case 'hex': result = text.split(' ').map(h => String.fromCharCode(parseInt(h, 16))).join(''); break;
+                    case 'reverse': result = text.split('').reverse().join(''); break;
+                    case 'xor': const xorDecoded = decodeURIComponent(escape(atob(text))); result = xorCipher(xorDecoded, key); break;
+                    case 'aes': result = await aesDecrypt(text, key); break;
                 }
-
                 outputText.value = result;
             } catch(e) {
                 alert(lang.alertDecode + ': ' + e.message);
@@ -563,16 +719,75 @@
             }
         };
 
-        // ==================== НАЗНАЧАЕМ ОБРАБОТЧИКИ ====================
         encodeBtn.onclick = window.encodeText;
         decodeBtn.onclick = window.decodeText;
+        saveBtn.onclick = saveToCabinet;
 
-        // ==================== ЗАГРУЗКА ====================
+        // ============================================================
+        //  ОБРАБОТЧИКИ АВТОРИЗАЦИИ
+        // ============================================================
+
+        document.getElementById('authBtn').addEventListener('click', function() {
+            if (getCurrentUser()) {
+                logout();
+            } else {
+                openAuthModal('login');
+            }
+        });
+
+        document.getElementById('authSubmitBtn').addEventListener('click', handleAuth);
+        document.getElementById('authCloseBtn').addEventListener('click', closeAuthModal);
+        document.getElementById('authSwitchBtn').addEventListener('click', function() {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById('authModalTitle');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const switchBtn = document.getElementById('authSwitchBtn');
+            const errorMsg = document.getElementById('authError');
+            const successMsg = document.getElementById('authSuccess');
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (isLoginMode) {
+                title.textContent = 'Вход';
+                submitBtn.textContent = 'Войти';
+                switchBtn.textContent = 'Нет аккаунта? Зарегистрироваться';
+            } else {
+                title.textContent = 'Регистрация';
+                submitBtn.textContent = 'Зарегистрироваться';
+                switchBtn.textContent = 'Уже есть аккаунт? Войти';
+            }
+        });
+
+        // Закрытие по клику вне модалки
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAuthModal();
+        });
+
+        // Enter для отправки
+        document.getElementById('authPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') handleAuth();
+        });
+        document.getElementById('authLogin').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('authPassword').focus();
+        });
+
+        // ============================================================
+        //  ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
+
         applyLanguage('ru');
         window._lang = translations.ru;
+        updateAuthUI();
 
-        console.log('✅ Cat Encoder');
-        console.log('📝 Введите текст и нажмите "Зашифровать"');
+        // Загружаем записи пользователя, если он авторизован
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+            loadUserRecords();
+        }
+
+        console.log('✅ Cat Encoder Pro с аккаунтами готов!');
+        console.log('🔑 Нажми "Войти" чтобы создать аккаунт или войти');
+        console.log('📁 Все записи привязываются к твоему аккаунту');
     </script>
 </body>
 </html>
